@@ -8,7 +8,7 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [showPass, setShowPass] = useState(true);
-
+    
     const handleRegisterSubmit = e => {
         e.preventDefault();
         const email = e.target.email.value
@@ -22,12 +22,13 @@ const Register = () => {
 
         if (password.length < 6) {
             setError('Password should be at least 6 characters ');
-            return
+            return;
         } else if (!(password === CfPassword)) {
             setError('Confirm field password not match, Please double check');
-            return
+            return;
         } else if (!/[A-Z]/.test(password)) {
             setError('Password must be at last one Uppercase latter')
+            return;
         } else if (!terms) {
             setError('Please accept the terms and condition to proceed')
             return;
@@ -35,7 +36,7 @@ const Register = () => {
 
 
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(userCredential => {
                 const user = userCredential.user
                 sendEmailVerification(user)
                     .then(() => {
@@ -44,11 +45,11 @@ const Register = () => {
                 
                 updateProfile(auth.currentUser, {
                     displayName: fname
-                }).then(() => {
-                    // Profile updated!
-                }).catch((error) => {
-                    console.log('profile up ERR: ', error)
-                });
+                    }).then(() => {
+                        console.log('profile name updated')
+                    }).catch((error) => {
+                        console.log('profile up ERR: ', error)
+                    });
 
             })
             .catch((registerdError) => {

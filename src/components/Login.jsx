@@ -41,6 +41,7 @@ const Login = () => {
 
         setSuccess('');
         setError('');
+        setUserName('');
 
         const email = emailRef.current.value;
         if (!email) {
